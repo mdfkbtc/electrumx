@@ -3165,140 +3165,26 @@ class ECCoin(Coin):
         return scrypt.hash(header, header, 1024, 1, 1, 32)
 
 
-class Bellcoin(Coin):
-    NAME = "Bellcoin"
-    SHORTNAME = "BELL"
+class Veles(Coin):
+    NAME = "Veles"
+    SHORTNAME = "VLS"
     NET = "mainnet"
-    XPUB_VERBYTES = bytes.fromhex("0488b21e")
-    XPRV_VERBYTES = bytes.fromhex("0488ade4")
-    P2PKH_VERBYTE = bytes.fromhex("19")
-    P2SH_VERBYTES = [bytes.fromhex("55")]
-    WIF_BYTE = bytes.fromhex("80")
-    GENESIS_HASH = ('000008f3b6bd10c2d03b06674a006b8d'
-                    '9731f6cb58179ef1eee008cee2209603')
-    DESERIALIZER = lib_tx.DeserializerSegWit
-    TX_COUNT = 264129
-    TX_COUNT_HEIGHT = 219574
-    TX_PER_BLOCK = 5
-    RPC_PORT = 25252
-    REORG_LIMIT = 1000
-    PEERS = [
-        'bell.electrumx.japanesecoin-pool.work s t',
-        'bell.streetcrypto7.com s t',
-    ]
-
-    @classmethod
-    def header_hash(cls, header):
-        '''Given a header return the hash.'''
-        import bell_yespower
-        return bell_yespower.getPoWHash(header)
-
-
-class CPUchain(Coin):
-    NAME = "CPUchain"
-    SHORTNAME = "CPU"
-    NET = "mainnet"
-    P2PKH_VERBYTE = bytes.fromhex("1C")
-    P2SH_VERBYTES = [bytes.fromhex("1E")]
-    GENESIS_HASH = ('000024d8766043ea0e1c9ad42e7ea4b5'
-                    'fdb459887bd80b8f9756f3d87e128f12')
-    DESERIALIZER = lib_tx.DeserializerSegWit
-    TX_COUNT = 4471
-    TX_COUNT_HEIGHT = 3491
-    TX_PER_BLOCK = 2
-    RPC_PORT = 19707
-    REORG_LIMIT = 1000
-    PEERS = [
-        'electrumx.cpuchain.org s t',
-    ]
-
-    @classmethod
-    def header_hash(cls, header):
-        '''Given a header return the hash.'''
-        import cpupower
-        return cpupower.getPoWHash(header)
-
-
-class Xaya(NameIndexMixin, AuxPowMixin, Coin):
-    NAME = "Xaya"
-    SHORTNAME = "CHI"
-    NET = "mainnet"
-    XPUB_VERBYTES = bytes.fromhex("0488b21e")
-    XPRV_VERBYTES = bytes.fromhex("0488ade4")
-    P2PKH_VERBYTE = bytes.fromhex("1c")
+    XPUB_VERBYTES = bytes.fromhex("A40C86FA")
+    XPRV_VERBYTES = bytes.fromhex("A40B91BD")
+    GENESIS_HASH = ('d7d274ccc1d4f6ff6e5533442ff7d734'
+                    'a25357de4a5a4e4c01c39823cba68831')
+    P2PKH_VERBYTE = bytes.fromhex("46")
     P2SH_VERBYTES = [bytes.fromhex("1e")]
-    WIF_BYTE = bytes.fromhex("82")
-    GENESIS_HASH = ('e5062d76e5f50c42f493826ac9920b63'
-                    'a8def2626fd70a5cec707ec47a4c4651')
-    TX_COUNT = 1147749
-    TX_COUNT_HEIGHT = 1030000
-    TX_PER_BLOCK = 2
-    DESERIALIZER = lib_tx.DeserializerXaya
-    TRUNCATED_HEADER_SIZE = 80 + 5
-    RPC_PORT = 8396
+    WIF_BYTE = bytes.fromhex("D4")
+    DESERIALIZER = lib_tx.DeserializerSegWit
+    TX_COUNT = 560319
+    TX_COUNT_HEIGHT = 186773
+    TX_PER_BLOCK = 3
+    RPC_PORT = 5493
     PEERS = [
-        'seeder.xaya.io s50002',
-        'xaya.domob.eu s50002',
+        'explorer.veles.network',
+        '80.211.97.48'
     ]
-
-    # Op-codes for name operations
-    OP_NAME_REGISTER = OpCodes.OP_1
-    OP_NAME_UPDATE = OpCodes.OP_2
-
-    # Valid name prefixes.
-    NAME_REGISTER_OPS = [OP_NAME_REGISTER, "name", -1, OpCodes.OP_2DROP,
-                         OpCodes.OP_DROP]
-    NAME_UPDATE_OPS = [OP_NAME_UPDATE, "name", -1, OpCodes.OP_2DROP,
-                       OpCodes.OP_DROP]
-    NAME_OPERATIONS = [
-        NAME_REGISTER_OPS,
-        NAME_UPDATE_OPS,
-    ]
-
-    @classmethod
-    def genesis_block(cls, block):
-        super().genesis_block(block)
-
-        # In Xaya, the genesis block's coinbase is spendable.  Thus unlike
-        # the generic genesis_block() method, we return the full block here.
-        return block
-
-
-class XayaTestnet(Xaya):
-    SHORTNAME = "XCH"
-    NET = "testnet"
-    P2PKH_VERBYTE = bytes.fromhex("58")
-    P2SH_VERBYTES = [bytes.fromhex("5a")]
-    WIF_BYTE = bytes.fromhex("e6")
-    GENESIS_HASH = ('5195fc01d0e23d70d1f929f21ec55f47'
-                    'e1c6ea1e66fae98ee44cbbc994509bba')
-    TX_COUNT = 51557
-    TX_COUNT_HEIGHT = 49000
-    TX_PER_BLOCK = 1
-    RPC_PORT = 18396
-    PEERS = []
-
-
-class XayaRegtest(XayaTestnet):
-    NET = "regtest"
-    GENESIS_HASH = ('6f750b36d22f1dc3d0a6e483af453010'
-                    '22646dfc3b3ba2187865f5a7d6d83ab1')
-    RPC_PORT = 18493
-
-# Source: https://github.com/GZR0/GRZ0
-
-
-class GravityZeroCoin(ScryptMixin, Coin):
-    NAME = "GravityZeroCoin"
-    SHORTNAME = "GZRO"
-    NET = "mainnet"
-    P2PKH_VERBYTE = bytes.fromhex("26")
-    WIF_BYTE = bytes.fromhex("26")
-    GENESIS_HASH = ('0000028bfbf9ccaed8f28b3ca6b3ffe6b65e29490ab0e4430679bf41cc7c164f')
-    DAEMON = daemon.FakeEstimateLegacyRPCDaemon
-    TX_COUNT = 100
-    TX_COUNT_HEIGHT = 747635
-    TX_PER_BLOCK = 2
-    RPC_PORT = 36442
-    ESTIMATE_FEE = 0.01
-    RELAY_FEE = 0.01
+    ESTIMATE_FEE = 0.00001
+    RELAY_FEE = 0.00001
+    DAEMON = daemon.FakeEstimateFeeDaemon
